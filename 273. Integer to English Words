@@ -1,0 +1,68 @@
+class Solution {
+    
+    public HashMap<Integer,String> belowTen=new HashMap<>();
+    public HashMap<Integer, String> belowTwenty = new HashMap<>();
+    public HashMap<Integer, String> belowHundred = new HashMap<>();
+
+     public HashMapExample() {
+       belowTen.put(1, "one");
+        belowTen.put(2, "two");
+        belowTen.put(3, "three");
+        belowTen.put(4, "four");
+        belowTen.put(5, "five");
+        belowTen.put(6, "six");
+        belowTen.put(7, "seven");
+        belowTen.put(8, "eight");
+        belowTen.put(9, "nine");
+        
+
+        belowTwenty.put(10, "ten");
+        belowTwenty.put(11, "eleven");
+        belowTwenty.put(12, "twelve");
+        belowTwenty.put(13, "thirteen");
+        belowTwenty.put(14, "fourteen");
+        belowTwenty.put(15, "fifteen");
+        belowTwenty.put(16, "sixteen");
+        belowTwenty.put(17, "seventeen");
+        belowTwenty.put(18, "eighteen");
+        belowTwenty.put(19, "nineteen");
+
+
+        belowHundred.put(1, "ten");
+        belowHundred.put(2, "twenty");
+        belowHundred.put(3, "thirty");
+        belowHundred.put(4, "forty");
+        belowHundred.put(5, "fifty");
+        belowHundred.put(6, "sixty");
+        belowHundred.put(7, "seventy");
+        belowHundred.put(8, "eighty");
+        belowHundred.put(9, "ninety");
+        
+    }
+    public String numberToWords(int num) {
+
+        
+        if(num==0)
+        {
+            return "Zero";
+        }
+
+        return solve(num);
+    }
+
+    String solve(int num)
+    {
+        if(num<10)
+        {
+            return BelowTen.get(num);
+        }
+        if(num<20)
+        {
+            return BelowTwenty.get(num);
+        }
+        if(num<100) //89
+        {
+            return below
+        }
+    }
+}
