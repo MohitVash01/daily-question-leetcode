@@ -1,66 +1,96 @@
 class Solution {
-    int[] parent;
-    int[] rank;
-    int count;
+
+    public void numberofIslandsDFS(int matrix[][], int i, int j) {
+        if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length || matrix[i][j] == 1) {
+            return;
+        }
+        matrix[i][j] = 1; // marked as visited
+
+        numberofIslandsDFS(matrix, i + 1, j);
+        numberofIslandsDFS(matrix, i - 1, j);
+        numberofIslandsDFS(matrix, i, j + 1);
+        numberofIslandsDFS(matrix, i, j - 1);
+    }
+
     public int regionsBySlashes(String[] grid) {
         int rows = grid.length;
-        int dots = rows+1;
-        parent = new int[dots*dots];
-        rank = new int[dots*dots];
-        for (int i=0; i<parent.length; i++){
-            parent[i] = i;
-            rank[i] = 1;
-        }
-        
-        for (int i=0; i<dots; i++){
-            for (int j=0; j<dots; j++){
-                if (i==0 || j==0 || i==rows || j==rows){
-                    int cells = i * dots + j;
-                    union(0, cells);
+        int cols = grid[0].length();
+
+        int region = 0;
+
+        int matrix[][] = new int[rows * 3][cols * 3];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i].charAt(j) == '/') {  // Fix: Use charAt() instead of array-style indexing
+                    matrix[i * 3][j * 3 + 2] = 1;
+                    matrix[i * 3 + 1][j * 3 + 1] = 1;
+                    matrix[i * 3 + 2][j * 3] = 1;
+                } else if (grid[i].charAt(j) == '\\') {  // Fix: Use charAt() instead of array-style indexing
+                    matrix[i * 3][j * 3] = 1;
+                    matrix[i * 3 + 1][j * 3 + 1] = 1;
+                    matrix[i * 3 + 2][j * 3 + 2] = 1;
                 }
             }
         }
 
-        for (int i=0; i<rows; i++){
-            char[] ch = grid[i].toCharArray();
-            for (int j=0; j<ch.length; j++){
-                if (ch[j] == '\\'){
-                    int cell1 = i* dots+ j;
-                    int cell2 = (i+1)*dots + (j+1);
-                    union(cell1, cell2);
-                } else if (ch[j] == '/'){
-                    int cell1 = (i+1)*dots + j;
-                    int cell2 = i*dots + (j+1);
-                    union(cell1, cell2);
+        // DFS traversal to count regions
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    region++;
+                    numberofIslandsDFS(matrix, i, j); // mark all connected parts
                 }
             }
         }
-        return count;
+        return region;
+    }
+}
+class Solution {
+
+    public void numberofIslandsDFS(int matrix[][], int i, int j) {
+        if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length || matrix[i][j] == 1) {
+            return;
+        }
+        matrix[i][j] = 1; // marked as visited
+
+        numberofIslandsDFS(matrix, i + 1, j);
+        numberofIslandsDFS(matrix, i - 1, j);
+        numberofIslandsDFS(matrix, i, j + 1);
+        numberofIslandsDFS(matrix, i, j - 1);
     }
 
-    public void union(int a, int b){
-        int parentA = find(a);
-        int parentB = find(b);
-        if (parentA == parentB){
-            count++;
-        } else {
-            if (rank[parentA] > rank[parentB]){
-                parent[parentB] = parentA;
-            } else if (rank[parentA] < rank[parentB]){
-                parent[parentA] = parentB;
-            } else {
-                parent[parentB] = parentA;
-                rank[parentA]++;
+    public int regionsBySlashes(String[] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length();
+
+        int region = 0;
+
+        int matrix[][] = new int[rows * 3][cols * 3];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i].charAt(j) == '/') {  // Fix: Use charAt() instead of array-style indexing
+                    matrix[i * 3][j * 3 + 2] = 1;
+                    matrix[i * 3 + 1][j * 3 + 1] = 1;
+                    matrix[i * 3 + 2][j * 3] = 1;
+                } else if (grid[i].charAt(j) == '\\') {  // Fix: Use charAt() instead of array-style indexing
+                    matrix[i * 3][j * 3] = 1;
+                    matrix[i * 3 + 1][j * 3 + 1] = 1;
+                    matrix[i * 3 + 2][j * 3 + 2] = 1;
+                }
             }
         }
-    }
 
-    public int find(int a){
-        if(parent[a]==a)
-            return a;
-        int temp = find(parent[a]);
-        parent[a] = temp;
-        return temp;
+        // DFS traversal to count regions
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    region++;
+                    numberofIslandsDFS(matrix, i, j); // mark all connected parts
+                }
+            }
+        }
+        return region;
     }
-
 }
